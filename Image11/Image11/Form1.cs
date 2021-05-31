@@ -10,8 +10,8 @@ namespace Image11
         Bitmap objek;
         Bitmap robert;
         Bitmap preewite;
-        //Bitmap sobel;
-        //Bitmap laplacian;
+        Bitmap sobel;
+        Bitmap laplacian;
 
         public Form1()
         {
@@ -132,21 +132,91 @@ namespace Image11
         private void button5_Click(object sender, EventArgs e)
         {
             // Sobel Method
-            Bitmap sobel;
             sobel = new Bitmap(objek);
 
-            for (int x = 1; x < sobel.Width; x++)
+            for (int x = 1; x < sobel.Width - 1; x++)
             {
                 for (int y = 1; y < sobel.Height - 1; y++)
                 {
+                    // Read RGB from objek
+                    Color c1 = objek.GetPixel(x - 1, y - 1);
+                    Color c2 = objek.GetPixel(x, y - 1);
+                    Color c3 = objek.GetPixel(x + 1, y - 1);
+                    Color c4 = objek.GetPixel(x - 1, y);
+                    Color c5 = objek.GetPixel(x, y);
+                    Color c6 = objek.GetPixel(x + 1, y);
+                    Color c7 = objek.GetPixel(x - 1, y + 1);
+                    Color c8 = objek.GetPixel(x, y + 1);
+                    Color c9 = objek.GetPixel(x + 1, y + 1);
 
+                    // Grayscale 3x3 Kernel 
+                    int xg1 = (int)((c1.R + c1.G + c1.B) / 3);
+                    int xg2 = (int)((c2.R + c2.G + c2.B) / 3);
+                    int xg3 = (int)((c3.R + c3.G + c3.B) / 3);
+                    int xg4 = (int)((c4.R + c4.G + c4.B) / 3);
+                    int xg5 = (int)((c5.R + c5.G + c5.B) / 3);
+                    int xg6 = (int)((c6.R + c6.G + c6.B) / 3);
+                    int xg7 = (int)((c7.R + c7.G + c7.B) / 3);
+                    int xg8 = (int)((c8.R + c8.G + c8.B) / 3);
+                    int xg9 = (int)((c9.R + c9.G + c9.B) / 3);
+
+                    // Horiozaonal
+                    int xh = (int)(-xg1 - (2 * xg4) - xg7 + xg3 + (2 * xg6) + xg9);
+                    // Vertical
+                    int xv = (int)(-xg1 - (2 * xg2) - xg3 + xg7 + (2 * xg8) + xg9);
+
+                    int nX = xh + xv;
+
+                    if (nX < 0) nX = -nX;
+                    if (nX > 255) nX = 255;
+
+                    Color nC = Color.FromArgb(nX, nX, nX);
+                    sobel.SetPixel(x, y, nC);
                 }
             }
+            pictureBox4.Image = sobel;
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             // Laplacian Method
+            laplacian = new Bitmap(objek);
+
+            for (int x = 1; x < laplacian.Width - 1; x++)
+            {
+                for (int y = 1; y < laplacian.Height - 1; y++)
+                {
+                    // Read RGB from objek
+                    Color c1 = objek.GetPixel(x - 1, y - 1);
+                    Color c2 = objek.GetPixel(x, y - 1);
+                    Color c3 = objek.GetPixel(x + 1, y - 1);
+                    Color c4 = objek.GetPixel(x - 1, y);
+                    Color c5 = objek.GetPixel(x, y);
+                    Color c6 = objek.GetPixel(x + 1, y);
+                    Color c7 = objek.GetPixel(x - 1, y + 1);
+                    Color c8 = objek.GetPixel(x, y + 1);
+                    Color c9 = objek.GetPixel(x + 1, y + 1);
+
+                    // Grayscale 3x3 Kernel 
+                    int xg1 = (int)((c1.R + c1.G + c1.B) / 3);
+                    int xg2 = (int)((c2.R + c2.G + c2.B) / 3);
+                    int xg3 = (int)((c3.R + c3.G + c3.B) / 3);
+                    int xg4 = (int)((c4.R + c4.G + c4.B) / 3);
+                    int xg5 = (int)((c5.R + c5.G + c5.B) / 3);
+                    int xg6 = (int)((c6.R + c6.G + c6.B) / 3);
+                    int xg7 = (int)((c7.R + c7.G + c7.B) / 3);
+                    int xg8 = (int)((c8.R + c8.G + c8.B) / 3);
+                    int xg9 = (int)((c9.R + c9.G + c9.B) / 3);
+
+                    // Laplacian Method
+                    int xnew = (int)(xg1 + (-2 * xg2) + xg3 + (-2 * xg4) + (4 * xg5) + (-2 * xg6) + xg7 + (-2 * xg8) + xg9);
+                    if (xnew < 0) xnew = -xnew;
+                    if (xnew > 255) xnew = 255;
+                    Color cn = Color.FromArgb(xnew, xnew, xnew);
+                    laplacian.SetPixel(x, y, cn);
+                }
+            }
+            pictureBox5.Image = laplacian;
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -156,6 +226,16 @@ namespace Image11
             {
                 Application.Exit();
             }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
