@@ -232,8 +232,12 @@ namespace Image11
         {
             // Binerisasi
             int thres = 128;
-            Bitmap bin1;
+
+            Bitmap bin1, bin2, bin3, bin4;
             bin1 = new Bitmap(pictureBox2.Image);
+            bin2 = new Bitmap(pictureBox3.Image);
+            bin3 = new Bitmap(pictureBox4.Image);
+            bin4 = new Bitmap(pictureBox5.Image);
 
             for (int x = 0; x < bin1.Width; x++)
             {
@@ -241,22 +245,41 @@ namespace Image11
                 {
                     // Robert
                     Color c1 = bin1.GetPixel(x, y);
-                    int r1 = c1.R;
-                    int g1 = c1.G;
-                    int b1 = c1.B;
+                    int xg1 = (int)((c1.R + c1.G + c1.B) / 3);
+                    int bw1 = 0;
+                    if (xg1 >= thres) bw1 = 255;
+                    Color nc1 = Color.FromArgb(bw1, bw1, bw1);
+                    bin1.SetPixel(x, y, nc1);
 
-                    int bwr1 = 0;
-                    int bwg1 = 0;
-                    int bwb1 = 0;
-                    if (r1 >= thres) bwr1 = 255;
-                    if (g1 >= thres) bwg1 = 255;
-                    if (b1 >= thres) bwb1 = 255;
+                    // Prewitt
+                    Color c2 = bin2.GetPixel(x, y);
+                    int xg2 = (int)((c2.R + c2.G + c2.B) / 3);
+                    int bw2 = 0;
+                    if (xg2 >= thres) bw2 = 255;
+                    Color nc2 = Color.FromArgb(bw2, bw2, bw2);
+                    bin2.SetPixel(x, y, nc2);
 
-                    Color cn = Color.FromArgb(bwr1, bwg1, bwb1);
-                    bin1.SetPixel(x, y, cn);
+                    // Sobel
+                    Color c3 = bin3.GetPixel(x, y);
+                    int xg3 = (int)((c3.R + c3.G + c3.B) / 3);
+                    int bw3 = 0;
+                    if (xg3 >= thres) bw3 = 255;
+                    Color nc3 = Color.FromArgb(bw3, bw3, bw3);
+                    bin3.SetPixel(x, y, nc3);
+
+                    // Laplacian
+                    Color c4 = bin4.GetPixel(x, y);
+                    int xg4 = (int)((c4.R + c4.G + c4.B) / 3);
+                    int bw4 = 0;
+                    if (xg4 >= thres) bw4 = 255;
+                    Color nc4 = Color.FromArgb(bw4, bw4, bw4);
+                    bin4.SetPixel(x, y, nc4);
                 }
             }
             pictureBox2.Image = bin1;
+            pictureBox3.Image = bin2;
+            pictureBox4.Image = bin3;
+            pictureBox5.Image = bin4;
         }
 
         private void button9_Click(object sender, EventArgs e)
