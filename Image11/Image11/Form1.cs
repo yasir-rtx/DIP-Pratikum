@@ -89,15 +89,15 @@ namespace Image11
                 for (int y = 1; y < preewite.Height - 1; y++)
                 {
                     // Read RGB in 3x3 Kernel
-                    Color c1 = preewite.GetPixel(x - 1, y - 1);
-                    Color c2 = preewite.GetPixel(x, y - 1);
-                    Color c3 = preewite.GetPixel(x + 1, y - 1);
-                    Color c4 = preewite.GetPixel(x - 1, y);
-                    Color c5 = preewite.GetPixel(x, y);
-                    Color c6 = preewite.GetPixel(x + 1, y);
-                    Color c7 = preewite.GetPixel(x - 1, y + 1);
-                    Color c8 = preewite.GetPixel(x, y + 1);
-                    Color c9 = preewite.GetPixel(x + 1, y + 1);
+                    Color c1 = objek.GetPixel(x - 1, y - 1);
+                    Color c2 = objek.GetPixel(x, y - 1);
+                    Color c3 = objek.GetPixel(x + 1, y - 1);
+                    Color c4 = objek.GetPixel(x - 1, y);
+                    Color c5 = objek.GetPixel(x, y);
+                    Color c6 = objek.GetPixel(x + 1, y);
+                    Color c7 = objek.GetPixel(x - 1, y + 1);
+                    Color c8 = objek.GetPixel(x, y + 1);
+                    Color c9 = objek.GetPixel(x + 1, y + 1);
 
                     // Grayscale
                     int xg1 = (int)((c1.R + c1.G + c1.B) / 3);
@@ -116,14 +116,6 @@ namespace Image11
                     // vertical
                     //int xv = (xg1 * -1) + (xg2 * -1) + (xg3 * -1) + (xg4 * 0) + (xg5 * 0) + (xg6 * 0) + (xg7 * 1) + (xg8 * 1) + (xg9 * 1);
                     int xv = (int)(-xg1 - xg2 - xg3 + xg7 + xg8 + xg9);
-
-
-
-                    if (xh < 0) xh = -xh;
-                    if (xh > 255) xh = 255;
-
-                    if (xv < 0) xv = -xv;
-                    if (xv > 255) xv = 255;
 
                     int newX = xh + xv;
 
