@@ -230,12 +230,86 @@ namespace Image11
 
         private void button8_Click(object sender, EventArgs e)
         {
+            // Binerisasi
+            int thres = 128;
+            Bitmap bin1;
+            bin1 = new Bitmap(pictureBox2.Image);
 
+            for (int x = 0; x < bin1.Width; x++)
+            {
+                for (int y = 0; y < bin1.Height; y++)
+                {
+                    // Robert
+                    Color c1 = bin1.GetPixel(x, y);
+                    int r1 = c1.R;
+                    int g1 = c1.G;
+                    int b1 = c1.B;
+
+                    int bwr1 = 0;
+                    int bwg1 = 0;
+                    int bwb1 = 0;
+                    if (r1 >= thres) bwr1 = 255;
+                    if (g1 >= thres) bwg1 = 255;
+                    if (b1 >= thres) bwb1 = 255;
+
+                    Color cn = Color.FromArgb(bwr1, bwg1, bwb1);
+                    bin1.SetPixel(x, y, cn);
+                }
+            }
+            pictureBox2.Image = bin1;
         }
 
         private void button9_Click(object sender, EventArgs e)
         {
+            // Invers
+            Bitmap invers1, invers2, invers3, invers4;
+            invers1 = new Bitmap(pictureBox2.Image);
+            invers2 = new Bitmap(pictureBox3.Image);
+            invers3 = new Bitmap(pictureBox4.Image);
+            invers4 = new Bitmap(pictureBox5.Image);
 
+            for (int x = 0; x < invers1.Width; x++)
+            {
+                for (int y = 0; y < invers1.Height; y++)
+                {
+                    // Robert
+                    Color c1 = invers1.GetPixel(x, y);
+                    int xnr1 = (int)(255 - c1.R);
+                    int xng1 = (int)(255 - c1.G);
+                    int xnb1 = (int)(255 - c1.B);
+                    Color cn1 = Color.FromArgb(xnr1, xng1, xnb1);
+                    invers1.SetPixel(x, y, cn1);
+
+                    // Prewitt
+                    Color c2 = invers2.GetPixel(x, y);
+                    int xnr2 = (int)(255 - c2.R);
+                    int xng2 = (int)(255 - c2.G);
+                    int xnb2 = (int)(255 - c2.B);
+                    Color cn2 = Color.FromArgb(xnr2, xng2, xnb2);
+                    invers2.SetPixel(x, y, cn2);
+
+                    // Sobel
+                    Color c3 = invers3.GetPixel(x, y);
+                    int xnr3 = (int)(255 - c3.R);
+                    int xng3 = (int)(255 - c3.G);
+                    int xnb3 = (int)(255 - c3.B);
+                    Color cn3 = Color.FromArgb(xnr3, xng3, xnb3);
+                    invers3.SetPixel(x, y, cn3);
+
+                    // Laplacian
+                    Color c4 = invers4.GetPixel(x, y);
+                    int xnr4 = (int)(255 - c4.R);
+                    int xng4 = (int)(255 - c4.G);
+                    int xnb4 = (int)(255 - c4.B);
+                    Color cn4 = Color.FromArgb(xnr4, xng4, xnb4);
+                    invers4.SetPixel(x, y, cn4);
+                }
+            }
+
+            pictureBox2.Image = invers1;
+            pictureBox3.Image = invers2;
+            pictureBox4.Image = invers3;
+            pictureBox5.Image = invers4;
         }
     }
 }
