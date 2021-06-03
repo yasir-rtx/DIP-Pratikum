@@ -158,5 +158,69 @@ namespace Image13
             }
             pictureBox2.Image = objek;
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            int k = Convert.ToInt16(textBox1.Text);
+            objek = new Bitmap(objbitmap);
+            for (int x = 0; x < objek.Width; x++)
+            {
+                for (int y = 0; y < objek.Height; y++)
+                {
+                    Color c = objbitmap.GetPixel(x, y);
+
+                    // Red
+                    int r = (int)(k * (c.R / k));
+                    int g = (int)(k * (c.G / k));
+                    int b = (int)(k * (c.B / k));
+
+                    Color cn = Color.FromArgb(r, g, b);
+                    objek.SetPixel(x, y, cn);
+                }
+            }
+            pictureBox2.Image = objek;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            // Clear chart1 before add new value
+            chart1.Series["Red"].Points.Clear();
+            chart1.Series["Green"].Points.Clear();
+            chart1.Series["Blue"].Points.Clear();
+
+            objek = new Bitmap(objbitmap);
+            float[] HistR = new float[256];
+            float[] HistG = new float[256];
+            float[] HistB = new float[256];
+
+            for (int i = 0; i < 256; i++) HistR[i] = 0;
+
+            for (int x = 0; x < objek.Width; x++)
+            {
+                for (int y = 0; y < objek.Height; y++)
+                {
+                    Color c = objbitmap.GetPixel(x, y);
+
+                    // Red
+                    int r = c.R;
+                    HistR[r] = HistR[r] + 1;
+
+                    // Green
+                    int g = c.G;
+                    HistG[g] = HistG[g] + 1;
+                    
+                    // Blue
+                    int b = c.B;
+                    HistB[b] = HistB[b] + 1;
+                }
+            }
+
+            for (int i = 0; i < 256; i++)
+            {
+                chart1.Series["Red"].Points.AddXY(i, HistR[i]);
+                chart1.Series["Green"].Points.AddXY(i, HistG[i]);
+                chart1.Series["Blue"].Points.AddXY(i, HistB[i]);
+            }
+        }
     }
 }
